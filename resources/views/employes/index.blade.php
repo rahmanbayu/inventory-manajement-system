@@ -44,17 +44,25 @@
         </tr>
         </thead>
         <tbody>
+          @forelse ($employes as $employe)
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>
+              <img src="{{ Storage::url($employe->image) }}" width="60px" alt="">
+            </td>
+            <td>{{ $employe->name }}</td>
+            <td>{{ $employe->phone_number }}</td>
+            <td>{{ $employe->email }}</td>
+            <td>{{ $employe->created_at }}</td>
             <td>
               <a href="" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></a>
               <a href="" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
             </td>
           </tr>
+          @empty
+              <tr>
+                <td colspan="6" class="text-center">Data employe empty!</td>
+              </tr>
+          @endforelse
         </tbody>
     </table>
 
