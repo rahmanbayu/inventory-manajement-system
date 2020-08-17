@@ -11,6 +11,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('employes', 'EmployeController@index')->name('employes.index');
     Route::get('employes/add', 'EmployeController@create')->name('employes.create');
+    Route::post('employes/store', 'EmployeController@store')->name('employes.store');
 
     Route::resource('supliers', 'SuplierController');
     Route::resource('categories', 'CategoryController');
@@ -18,6 +19,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('expenses', 'ExpenseController');
     Route::resource('customers', 'CustomerController');
     Route::get('orders', 'OrderController')->name('orders.index');
+
+    Route::get('users/profile', 'UserController@profile')->name('users.profile');
+    Route::put('users/profile', 'UserController@update')->name('users.update');
 });
 
 Auth::routes();
