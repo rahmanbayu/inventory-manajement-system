@@ -8,11 +8,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::get('buys', 'BuyController@index')->name('buys.index');
-
-    Route::get('employes', 'EmployeController@index')->name('employes.index');
-    Route::get('employes/add', 'EmployeController@create')->name('employes.create');
-    Route::post('employes/store', 'EmployeController@store')->name('employes.store');
-
+    Route::resource('employes', 'EmployeController');
     Route::resource('supliers', 'SuplierController');
     Route::resource('categories', 'CategoryController');
     Route::resource('products', 'ProductController');

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Supliers\CreateSuplierRequest;
+use App\Http\Requests\Supliers\UpdateSuplierRequest;
+use App\Suplier;
 use Illuminate\Http\Request;
 
 class SuplierController extends Controller
@@ -13,7 +16,7 @@ class SuplierController extends Controller
      */
     public function index()
     {
-        return view('supliers.index');
+        return view('supliers.index', ['supliers' => Suplier::all()]);
     }
 
     /**
@@ -32,9 +35,18 @@ class SuplierController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateSuplierRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['image'] = $request->file('image')->store(
+            'assets/supliers',
+            'public'
+        );
+
+        Suplier::create($data);
+
+        session()->flash('success', 'New suplier was added.');
+        return redirect()->route('supliers.index');
     }
 
     /**
@@ -54,9 +66,9 @@ class SuplierController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Suplier $suplier)
     {
-        //
+        return view('supliers.form', ['suplier' => $suplier]);
     }
 
     /**
@@ -66,9 +78,22 @@ class SuplierController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateSuplierRequest $request, Suplier $suplier)
     {
-        //
+        $data = $request->validated();
+
+        if ($request->has('image')) {
+            $suplier->imageDelete();
+            $data['image'] = $request->file('image')->store(
+                'assets/supliers',
+                'public'
+            );
+        }
+
+        $suplier->update($data);
+
+        session()->flash('success', 'Edit suplier success.');
+        return redirect()->route('supliers.index');
     }
 
     /**
@@ -77,8 +102,12 @@ class SuplierController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Suplier $suplier)
     {
-        //
+        $suplier->imageDelete();
+        $suplier->delete();
+
+        session()->flash('success', 'Delete suplier success.');
+        return redirect()->back();
     }
 }

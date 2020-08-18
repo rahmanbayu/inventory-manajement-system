@@ -42,14 +42,17 @@
         </tr>
         </thead>
         <tbody>
+          @forelse ($categories as $category)
           <tr>
-            <td></td>
+            <td>{{ $category->name }}</td>
             <td></td>
             <td>
               <a href="" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></a>
               <a href="" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
             </td>
           </tr>
+          @empty
+          @endforelse
         </tbody>
     </table>
 

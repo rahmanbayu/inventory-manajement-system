@@ -47,15 +47,25 @@
           @forelse ($employes as $employe)
           <tr>
             <td>
-              <img src="{{ Storage::url($employe->image) }}" width="60px" alt="">
+              <img src="{{ asset('storage/' . $employe->image) }}" width="60px" alt="">
             </td>
             <td>{{ $employe->name }}</td>
             <td>{{ $employe->phone_number }}</td>
             <td>{{ $employe->email }}</td>
             <td>{{ $employe->created_at }}</td>
             <td>
-              <a href="" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></a>
-              <a href="" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+              <ul class="list-inline">
+                <li class="list-inline-item">
+                  <a href="{{ route('employes.edit', $employe) }}" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></a>
+                </li>
+                <li class="list-inline-item">
+                  <form action="{{ route('employes.destroy', $employe) }}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                  </form>
+                </li>
+              </ul>
             </td>
           </tr>
           @empty
