@@ -17,6 +17,8 @@
     
     <!-- Custom styles for this template-->
     <link href="{{ asset('Backend/css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+    @stack('custom-style')
     
     </head>
     
@@ -37,7 +39,7 @@
     
             <!-- Begin Page Content -->
             <div class="container-fluid">
-                
+                @include('includes.alert')
                 @yield('content')
     
             </div>
@@ -98,6 +100,7 @@
     <script src="{{ asset('Backend/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('Backend/js/demo/chart-pie-demo.js') }}"></script>
     
+    @stack('custom-script')
     </body>
     
     </html>

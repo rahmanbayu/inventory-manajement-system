@@ -45,17 +45,34 @@
         </tr>
         </thead>
         <tbody>
+          @forelse ($supliers as $suplier)
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
             <td>
-              <a href="" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></a>
-              <a href="" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+              <img src="{{ Storage::url($suplier->image) }}" width="50px" alt="">
+            </td>
+            <td>{{ $suplier->name }}</td>
+            <td>{{ $suplier->phone_number }}</td>
+            <td>{{ $suplier->shop_name }}</td>
+            <td>{{ $suplier->email }}</td>
+            <td>
+              <ul class="list-inline">
+                <li class="list-inline-item">
+                  <a href="{{ route('supliers.edit', $suplier) }}" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></a>
+                </li>
+                <li class="list-inline-item">
+                  <form action="{{ route('supliers.destroy', $suplier) }}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                  </form>
+                </li>
+              </ul>
             </td>
           </tr>
+          @empty
+              
+          @endforelse
+
         </tbody>
     </table>
 

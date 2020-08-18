@@ -5,20 +5,18 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 
-class Employe extends Model
+class Suplier extends Model
 {
     protected $fillable = [
         'name',
         'email',
+        'shop_name',
         'phone_number',
-        'nik',
-        'birth_date',
-        'salary',
         'address',
         'image',
     ];
 
-    public function deleteImage()
+    public function imageDelete()
     {
         File::delete(public_path('storage/' . $this->image));
     }
