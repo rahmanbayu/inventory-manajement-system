@@ -47,8 +47,18 @@
             <td>{{ $category->name }}</td>
             <td></td>
             <td>
-              <a href="" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></a>
-              <a href="" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+              <ul class="list-inline">
+                <li class="list-inline-item">
+                  <a href="{{ route('categories.edit', $category) }}" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></a>
+                </li>
+                <li class="list-inline-item">
+                  <form action="{{ route('categories.destroy', $category) }}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                  </form>
+                </li>
+              </ul>
             </td>
           </tr>
           @empty

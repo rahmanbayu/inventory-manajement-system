@@ -2,10 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Http\Requests\Products\CreateProductRequest;
+use App\Http\Requests\Products\UpdateProductRequest;
+use App\Product;
+use App\Suplier;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['hasCategoryAndSuplier'])->only('create');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +24,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('products.index');
+        return view('products.index', ['products' => Product::all()]);
     }
 
     /**
@@ -23,7 +34,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.form');
+        return view('products.form', ['categories' => Category::all(), 'supliers' => Suplier::all()]);
     }
 
     /**
@@ -32,9 +43,19 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateProductRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['image'] = $request->file('image')->store(
+            'assets/products',
+            'public'
+        );
+
+        Product::create($data);
+
+        session()->flash('success', 'product create success.');
+
+        return redirect()->route('products.index');
     }
 
     /**
@@ -54,9 +75,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+        return view('products.form', ['categories' => Category::all(), 'supliers' => Suplier::all(), 'product' => $product]);
     }
 
     /**
@@ -66,9 +87,22 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $data = $request->validated();
+        if ($request->has('image')) {
+            $product->imageDelete();
+            $data['image'] = $request->file('image')->store(
+                'assets/products',
+                'public'
+            );
+        }
+
+        $product->update($data);
+
+        session()->flash('success', 'Edit product success');
+
+        return redirect()->route('products.index');
     }
 
     /**
@@ -77,8 +111,13 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        //
+        $product->imageDelete();
+        $product->delete();
+
+        session()->flash('success', 'Delete product success.');
+
+        return redirect()->back();
     }
 }
