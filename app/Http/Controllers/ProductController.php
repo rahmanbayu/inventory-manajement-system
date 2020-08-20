@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Suplier;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['hasCategoryAndSuplier'])->only('create');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +31,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.form');
+        return view('products.form', ['categories' => Category::all(), 'supliers' => Suplier::all()]);
     }
 
     /**

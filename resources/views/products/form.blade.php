@@ -30,11 +30,11 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label for="category">Category</label>
-            <select class="form-control" name="category" id="category">
-              <option></option>
-              <option></option>
-              <option></option>
+            <label for="category_id">Category</label>
+            <select class="form-control" name="category_id" id="category_id">
+              @foreach ($categories as $category)
+              <option value="{{ $category->id }}">{{ $category->name }}</option>
+              @endforeach
             </select>
           </div>
       </div>
@@ -42,9 +42,9 @@
           <div class="form-group">
             <label for="suplier_id">Suplier</label>
             <select class="form-control" name="suplier_id" id="suplier_id">
-              <option></option>
-              <option></option>
-              <option></option>
+              @foreach ($supliers as $suplier)
+              <option value="{{ $suplier->id }}">{{ $suplier->name }}</option>
+              @endforeach
             </select>
           </div>
         </div>
