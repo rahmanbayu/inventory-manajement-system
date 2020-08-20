@@ -47,19 +47,35 @@
         </tr>
         </thead>
         <tbody>
+          @forelse ($products as $product)
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
             <td>
-              <a href="" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></a>
-              <a href="" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+              <img src="{{ Storage::url($product->image) }}" width="50px" alt="">
+            </td>
+            <td>{{ $product->name }}</td>
+            <td>{{ $product->code }}</td>
+            <td>{{ $product->category->name }}</td>
+            <td>{{ $product->buy_price }}</td>
+            <td>{{ $product->sel_price }}</td>
+            <td>{{ $product->quantity }}</td>
+            <td>
+              <ul class="list-inline">
+                <li class="list-inline-item">
+                  <a href="{{ route('products.edit', $product) }}" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></a>
+                </li>
+                <li class="list-inline-item">
+                  <form action="{{ route('products.destroy', $product) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                  </form>
+                </li>
+              </ul>
             </td>
           </tr>
+          @empty
+              
+          @endforelse
         </tbody>
     </table>
 

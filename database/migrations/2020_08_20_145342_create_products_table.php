@@ -20,9 +20,10 @@ class CreateProductsTable extends Migration
             $table->string('code');
             $table->bigInteger('category_id')->unsigned();
             $table->bigInteger('suplier_id')->unsigned();
-            $table->integer('but_price');
+            $table->integer('buy_price');
             $table->integer('sel_price');
             $table->integer('quantity');
+            $table->timestamp('buy_at')->nullable();
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories');
